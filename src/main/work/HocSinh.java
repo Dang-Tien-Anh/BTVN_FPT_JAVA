@@ -6,7 +6,6 @@ public class HocSinh {
     private double diemVan;
     private double diemAnh;
 
-    // Constructor
     public HocSinh(String hoTen, double diemToan, double diemVan, double diemAnh) {
         this.hoTen = hoTen;
         this.diemToan = kiemTraDiem(diemToan);
@@ -14,19 +13,16 @@ public class HocSinh {
         this.diemAnh = kiemTraDiem(diemAnh);
     }
 
-    // Ràng buộc: điểm chỉ từ 0 -> 10
     private double kiemTraDiem(double diem) {
         if (diem < 0) return 0;
         if (diem > 10) return 10;
         return diem;
     }
 
-    // Tính điểm trung bình
     public double tinhDiemTB() {
         return (diemToan + diemVan + diemAnh) / 3.0;
     }
 
-    // Xếp loại theo điểm trung bình
     public String xepLoai() {
         double tb = tinhDiemTB();
         if (tb >= 8) return "Giỏi";
@@ -35,7 +31,6 @@ public class HocSinh {
         else return "Yếu";
     }
 
-    // In thông tin học sinh
     public void inThongTin() {
         System.out.println("Họ tên: " + hoTen);
         System.out.println("Điểm Toán: " + diemToan);

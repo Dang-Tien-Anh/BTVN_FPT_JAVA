@@ -5,14 +5,12 @@ public class TaiKhoan {
     private String tenChuTK;
     private double soDu;
 
-    // Constructor
     public TaiKhoan(String soTaiKhoan, String tenChuTK, double soDu) {
         this.soTaiKhoan = soTaiKhoan;
         this.tenChuTK = tenChuTK;
         this.soDu = soDu;
     }
 
-    // Nạp tiền
     public void napTien(double soTien) {
         if (soTien > 0) {
             soDu += soTien;
@@ -22,7 +20,6 @@ public class TaiKhoan {
         }
     }
 
-    // Rút tiền
     public void rutTien(double soTien) {
         if (soTien <= soDu) {
             soDu -= soTien;
@@ -32,7 +29,6 @@ public class TaiKhoan {
         }
     }
 
-    // Hiển thị số dư
     public void hienThiSoDu() {
         System.out.println("Số dư hiện tại: " + soDu);
     }
