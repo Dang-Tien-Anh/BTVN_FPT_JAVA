@@ -1,78 +1,57 @@
 package main.work;
 
-public class PhoneBook extends Phone {
-    private PhoneNumber[] phoneList;
-    private int count;
+import java.util.ArrayList;
+import java.util.Comparator;
 
-    public PhoneBook() {
-        phoneList = new PhoneNumber[100]; // fixed size
-        count = 0;
-    }
+// Lớp quản lý danh bạ, kế thừa từ Phone
+public class PhoneBook extends Phone {
+    ArrayList<PhoneNumber> phoneList = new ArrayList<>();
 
     @Override
     public void insertPhone(String name, String phone) {
-        for (int i = 0; i < count; i++) {
-            if (phoneList[i].name.equalsIgnoreCase(name)) {
-                phoneList[i].addPhone(phone);
-                return;
+        // kiểm tra xem tên đã có chưa
+        for (PhoneNumber pn : phoneList) {
+            if (pn.getName().equalsIgnoreCase(name)) {
+                // nếu số chưa có thì thêm vào
+                if (!pn.getPhones().contains(phone)) {
+                    pn.getPhones().add(phone);
+                }
+                return; // thoát vì đã xử lý xong
             }
         }
-        phoneList[count++] = new PhoneNumber(name, phone);
+        // nếu chưa có thì tạo mới
+        phoneList.add(new PhoneNumber(name, phone));
     }
 
     @Override
     public void removePhone(String name) {
-        for (int i = 0; i < count; i++) {
-            if (phoneList[i].name.equalsIgnoreCase(name)) {
-                // shift left
-                for (int j = i; j < count - 1; j++) {
-                    phoneList[j] = phoneList[j + 1];
-                }
-                count--;
-                return;
-            }
-        }
+        phoneList.removeIf(pn -> pn.getName().equalsIgnoreCase(name));
     }
 
     @Override
     public void updatePhone(String name, String newphone) {
-        for (int i = 0; i < count; i++) {
-            if (phoneList[i].name.equalsIgnoreCase(name)) {
-                phoneList[i].updatePhone(newphone);
+        for (PhoneNumber pn : phoneList) {
+            if (pn.getName().equalsIgnoreCase(name)) {
+                pn.getPhones().clear(); // xóa số cũ
+                pn.getPhones().add(newphone); // thêm số mới
                 return;
             }
         }
-        System.out.println("Name not found!");
     }
 
     @Override
     public void searchPhone(String name) {
-        for (int i = 0; i < count; i++) {
-            if (phoneList[i].name.equalsIgnoreCase(name)) {
-                System.out.println("Found: " + phoneList[i]);
+        for (PhoneNumber pn : phoneList) {
+            if (pn.getName().equalsIgnoreCase(name)) {
+                System.out.println("Tìm thấy: " + pn.getName() + " -> " + pn.getPhones());
                 return;
             }
         }
-        System.out.println("Not found!");
+        System.out.println("Không tìm thấy: " + name);
     }
 
     @Override
     public void sort() {
-        // simple bubble sort by name
-        for (int i = 0; i < count - 1; i++) {
-            for (int j = 0; j < count - i - 1; j++) {
-                if (phoneList[j].name.compareToIgnoreCase(phoneList[j + 1].name) > 0) {
-                    PhoneNumber temp = phoneList[j];
-                    phoneList[j] = phoneList[j + 1];
-                    phoneList[j + 1] = temp;
-                }
-            }
-        }
-    }
-
-    public void displayAll() {
-        for (int i = 0; i < count; i++) {
-            System.out.println(phoneList[i]);
-        }
+        phoneList.sort(Comparator.comparing(PhoneNumber::getName));
     }
 }
